@@ -1,19 +1,20 @@
 <?php
 $steamXML = simplexml_load_file("https://steamcommunity.com/groups/urautist/memberslistxml/?xml=1");
 
-$steamID64;
+function checkID($group) {
+    
+    if (is_numeric($_GET['steamID'])){
+        $ID = $_GET['steamID'];
+    } else {
+        return json_encode(['inGroup' => false, 'success' => false]);
+    }
 
-if (is_numeric($_GET['steamID'])){
-    $steamID64 = $_GET['steamID'];
-}
-
-function checkID($group, $ID) {
     foreach ($group->members->steamID64 as $currentID) {
         if ($ID == $currentID) {
-           return json_encode(['inGroup' => true]);
+           return json_encode(['inGroup' => true, 'success' => true],);
         } 
     }  
-    return json_encode(['inGroup' => false]);
+    return json_encode(['inGroup' => false, 'success' => true]);
 }
 
-echo checkID($steamXML, $steamID64);
+echo checkID($steamXML);
