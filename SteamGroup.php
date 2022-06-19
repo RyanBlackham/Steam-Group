@@ -1,19 +1,15 @@
 <?php
-
-$steam = file_get_contents("https://steamcommunity.com/groups/urautist/memberslistxml/?xml=1");
-
 $steamXML = simplexml_load_file("https://steamcommunity.com/groups/urautist/memberslistxml/?xml=1");
 
-$truesteamID64 = 76561198994541929;
-$falsesteamID64 = 63436426428974686;
+$steamID64 = 76561198448431038;
 
-$steamString = simplexml_load_string($steamXML);
+function checkID($group, $ID) {
+    foreach ($group->members->steamID64 as $currentID) {
+        if ($ID == $currentID) {
+           return json_encode(['isInSteamGroup' => true]);
+        } 
+    }  
+    return json_encode(['isInSteamGroup' => false]);
+}
 
-$memberList = new SimpleXMLElement($steam);
-
-echo $memberList->members->steam64ID;
-
-//foreach ($steamXML->members->steamID64 as $ID){
-//}
-
-//json_decode(json_encode($steamString), true);
+echo checkID($steamXML, $steamID64);
