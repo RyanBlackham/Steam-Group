@@ -1,7 +1,11 @@
 <?php
 $steamXML = simplexml_load_file("https://steamcommunity.com/groups/urautist/memberslistxml/?xml=1");
 
-$steamID64 = 76561198448431038;
+$steamID64;
+
+if (is_numeric($_GET['steamID'])){
+    $steamID64 = $_GET['steamID'];
+}
 
 function checkID($group, $ID) {
     foreach ($group->members->steamID64 as $currentID) {
